@@ -1,1181 +1,463 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ferrero Trips — Foro de viajes familiares</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --sand: #e8d5b7;
-      --earth: #8b5e3c;
-      --forest: #3a5a40;
-      --stone: #6b6560;
-      --rust: #c0522f;
-      --cream: #fdf6ec;
-      --dark: #1a1713;
-      --mid: #2e2a25;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ferrero Trips â Family Travel Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dark: #1a1713;
+  --mid: #2e2a25;
+  --cream: #fdf6ec;
+  --sand: #e8d5b7;
+  --rust: #c0522f;
+  --gold: #d4a847;
+  --text: #c8b89a;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--dark); color: var(--text); font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.8; overflow-x: hidden; }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.2rem 3rem; display: flex; justify-content: space-between; align-items: center; transition: background .4s; }
+nav.scrolled { background: rgba(26,23,19,.95); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(212,168,71,.15); }
+.nav-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: .15em; color: var(--cream); text-decoration: none; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--text); text-decoration: none; transition: color .3s; }
+.nav-links a:hover { color: var(--gold); }
 
-    body {
-      background: var(--dark);
-      color: var(--sand);
-      font-family: 'Inter', sans-serif;
-      font-weight: 300;
-      overflow-x: hidden;
-    }
+/* HERO */
+.hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative; overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; background: linear-gradient(160deg,#1a1713 0%,#2a2018 40%,#1a1310 100%); }
+.hero-bg::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse 80% 60% at 50% 70%, rgba(192,82,47,.18) 0%, transparent 70%); }
+.hero-badge { font-size: .65rem; letter-spacing: .35em; text-transform: uppercase; color: var(--rust); margin-bottom: 1.5rem; position: relative; }
+.hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem,14vw,13rem); line-height: .9; letter-spacing: .02em; color: var(--cream); position: relative; }
+.hero h1 span { display: block; font-family: 'Playfair Display', serif; font-size: clamp(2.5rem,7vw,6rem); letter-spacing: .04em; color: var(--gold); font-weight: 400; }
+.hero-sub { font-size: .9rem; color: var(--sand); max-width: 480px; margin-top: 2rem; position: relative; line-height: 1.9; }
+.scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); font-size: .65rem; letter-spacing: .25em; text-transform: uppercase; color: var(--rust); animation: pulse 2.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 2.5rem;
-      background: rgba(26,23,19,0.92);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(232,213,183,0.1);
-    }
-    .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.6rem;
-      letter-spacing: 3px;
-      color: var(--sand);
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--rust); }
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-    }
-    nav ul a {
-      color: rgba(232,213,183,0.6);
-      text-decoration: none;
-      font-size: 0.8rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    nav ul a:hover { color: var(--sand); }
+/* INTRO STRIP */
+.intro-strip { background: var(--mid); padding: 4rem 3rem; text-align: center; border-top: 1px solid rgba(212,168,71,.1); border-bottom: 1px solid rgba(212,168,71,.1); }
+.intro-strip p { font-size: 1.05rem; max-width: 680px; margin: 0 auto; color: var(--sand); line-height: 2; }
+.intro-strip p em { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--gold); }
 
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 6rem 2rem 4rem;
-      position: relative;
-      background:
-        linear-gradient(to bottom, rgba(26,23,19,0.5) 0%, rgba(26,23,19,0.85) 100%),
-        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1800&auto=format&fit=crop') center/cover no-repeat;
-    }
-    .hero-stamp {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 0.9rem;
-      letter-spacing: 5px;
-      color: var(--rust);
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-    }
-    .hero h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(4rem, 12vw, 10rem);
-      line-height: 0.9;
-      letter-spacing: 4px;
-      color: var(--sand);
-      text-shadow: 0 4px 30px rgba(0,0,0,0.5);
-    }
-    .hero h1 em {
-      font-style: italic;
-      font-family: 'Playfair Display', serif;
-      color: var(--rust);
-      font-size: 0.7em;
-    }
-    .hero-sub {
-      margin-top: 1.5rem;
-      font-size: 1rem;
-      letter-spacing: 1px;
-      color: rgba(232,213,183,0.7);
-      max-width: 480px;
-    }
-    .hero-stats {
-      display: flex;
-      gap: 3rem;
-      margin-top: 3rem;
-    }
-    .hero-stats .stat {
-      text-align: center;
-    }
-    .hero-stats .num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3rem;
-      color: var(--rust);
-      line-height: 1;
-    }
-    .hero-stats .label {
-      font-size: 0.7rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: rgba(232,213,183,0.5);
-    }
-    .scroll-hint {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.7rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: rgba(232,213,183,0.4);
-      animation: bounce 2s infinite;
-    }
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50%       { transform: translateX(-50%) translateY(8px); }
-    }
+/* TRIP SECTIONS */
+.trip { padding: 6rem 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+.trip-inner { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
 
-    /* ── SECTION HEADERS ── */
-    .section-header {
-      text-align: center;
-      padding: 5rem 2rem 2rem;
-    }
-    .section-header .overline {
-      font-size: 0.7rem;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--rust);
-      margin-bottom: 0.5rem;
-    }
-    .section-header h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.5rem, 6vw, 5rem);
-      letter-spacing: 3px;
-      color: var(--sand);
-    }
+/* TRIP HEADER */
+.trip-header { margin-bottom: 4rem; }
+.trip-num { font-size: .65rem; letter-spacing: .35em; text-transform: uppercase; color: var(--rust); margin-bottom: .5rem; }
+.trip-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem,8vw,7rem); line-height: .9; letter-spacing: .03em; color: var(--cream); }
+.trip-meta { display: flex; gap: 2rem; margin-top: 1rem; flex-wrap: wrap; }
+.trip-meta span { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); border-left: 2px solid var(--rust); padding-left: .8rem; }
 
-    /* ── FEATURED TRIPS ── */
-    #viajes {
-      padding: 0 2rem 6rem;
-      max-width: 1300px;
-      margin: 0 auto;
-    }
+/* STORY LAYOUT */
+.story-block { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-bottom: 5rem; }
+.story-block.reverse { direction: rtl; }
+.story-block.reverse > * { direction: ltr; }
+.story-block.full { grid-template-columns: 1fr; max-width: 680px; }
+.story-text p { margin-bottom: 1.2rem; font-size: .95rem; color: var(--text); }
+.story-text p:first-child::first-letter { font-family: 'Playfair Display', serif; font-size: 3.5rem; line-height: 1; float: left; margin: .05em .15em 0 0; color: var(--gold); }
+.pullquote { display: block; font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.2rem; color: var(--sand); line-height: 1.6; border-left: 3px solid var(--rust); padding-left: 1.2rem; margin: 1.5rem 0; }
 
-    .trips-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: 1.5rem;
-    }
+/* PHOTO FRAMES */
+.photo-frame { position: relative; overflow: hidden; border-radius: 2px; }
+.photo-frame::after { content: attr(data-caption); position: absolute; bottom: 0; left: 0; right: 0; padding: .7rem 1rem; background: linear-gradient(transparent, rgba(0,0,0,.7)); font-size: .7rem; letter-spacing: .08em; color: rgba(255,255,255,.85); font-style: italic; }
+.photo-tall { aspect-ratio: 3/4; }
+.photo-wide { aspect-ratio: 16/9; }
+.photo-square { aspect-ratio: 1/1; }
 
-    .trip-card {
-      position: relative;
-      border-radius: 4px;
-      overflow: hidden;
-      aspect-ratio: 4/3;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-      text-decoration: none;
-    }
-    .trip-card:hover { transform: scale(1.02); }
+/* photo gradient themes */
+.ph-japan-red { background: linear-gradient(135deg, #8B0000 0%, #C0392B 30%, #E74C3C 60%, #922B21 100%); }
+.ph-japan-pink { background: linear-gradient(135deg, #2C3E50 0%, #F8A0C4 50%, #E91E8C 80%, #1a1020 100%); }
+.ph-japan-gold { background: linear-gradient(135deg, #1a1713 0%, #8B6914 40%, #D4A847 70%, #7D5A14 100%); }
+.ph-sea-blue { background: linear-gradient(135deg, #0F2027 0%, #203A43 40%, #2C5364 70%, #00B4DB 100%); }
+.ph-sea-green { background: linear-gradient(135deg, #134E5E 0%, #71B280 100%); }
+.ph-mexico-terra { background: linear-gradient(135deg, #7B2D00 0%, #C0522F 35%, #E8A87C 65%, #8B4513 100%); }
+.ph-mexico-teal { background: linear-gradient(135deg, #005C5C 0%, #009688 40%, #00BCD4 70%, #004040 100%); }
+.ph-mexico-sun { background: linear-gradient(135deg, #7B4F00 0%, #D4A847 40%, #FFD700 65%, #C8860A 100%); }
+.ph-norway-fjord { background: linear-gradient(135deg, #1A3A4A 0%, #2E86AB 40%, #5CB3CC 65%, #3A7CA5 100%); }
+.ph-norway-green { background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 40%, #52B788 65%, #1B4332 100%); }
+.ph-norway-sunset { background: linear-gradient(135deg, #2C1810 0%, #C0522F 40%, #E8B87A 65%, #1a0e08 100%); }
+.ph-arg-sky { background: linear-gradient(135deg, #003087 0%, #0047AB 40%, #75B2DD 65%, #F0F0F0 100%); }
+.ph-arg-pampas { background: linear-gradient(135deg, #3D2B00 0%, #8B6914 40%, #D4C17A 65%, #5C4000 100%); }
+.ph-hytte-forest { background: linear-gradient(135deg, #0A2E0A 0%, #1B4332 40%, #2D6A4F 65%, #52B788 100%); }
+.ph-hytte-snow { background: linear-gradient(135deg, #A8C4D0 0%, #D4E8F0 40%, #FFFFFF 65%, #9BBCCB 100%); }
+.ph-ct-mountain { background: linear-gradient(135deg, #2C3E50 0%, #4A6070 40%, #7F8C8D 65%, #BDC3C7 100%); }
+.ph-ct-ocean { background: linear-gradient(135deg, #003087 0%, #0070BA 40%, #00B4D8 65%, #90E0EF 100%); }
+.ph-ct-sunset { background: linear-gradient(135deg, #8B1A00 0%, #D44000 40%, #FF7F50 65%, #FFB347 100%); }
 
-    .trip-card.large {
-      grid-column: span 2;
-      aspect-ratio: 16/7;
-    }
+/* photo film-grain overlay */
+.photo-frame::before { content:''; position:absolute; inset:0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E"); opacity:.4; mix-blend-mode: overlay; z-index:1; pointer-events:none; }
 
-    .trip-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-      filter: brightness(0.7);
-    }
-    .trip-card:hover img {
-      transform: scale(1.05);
-      filter: brightness(0.85);
-    }
+/* PHOTO TRIO grid */
+.photo-trio { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 1rem; }
+.photo-trio .photo-frame:first-child { grid-row: 1/3; }
 
-    .trip-card-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(26,23,19,0.95) 0%, rgba(26,23,19,0.1) 60%);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 1.5rem;
-    }
+/* ALBUM LINK */
+.album-link { display: inline-flex; align-items: center; gap: .6rem; margin-top: 2rem; padding: .7rem 1.4rem; border: 1px solid var(--rust); color: var(--rust); text-decoration: none; font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; transition: all .3s; }
+.album-link:hover { background: var(--rust); color: var(--cream); }
+.album-link::before { content: '\2197'; font-size: 1rem; }
 
-    .trip-tag {
-      font-size: 0.65rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--rust);
-      margin-bottom: 0.3rem;
-    }
+/* KEY FACTS */
+.key-facts { display: flex; gap: 2.5rem; flex-wrap: wrap; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,.07); }
+.fact-val { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: .05em; color: var(--gold); line-height: 1; }
+.fact-label { font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: var(--text); margin-top: .2rem; }
 
-    .trip-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem;
-      letter-spacing: 2px;
-      color: var(--sand);
-      line-height: 1;
-    }
-    .trip-card.large .trip-title { font-size: 3rem; }
+/* SCROLL REVEAL */
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+.reveal.revealed { opacity: 1; transform: none; }
+.reveal-left { opacity: 0; transform: translateX(-40px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
+.reveal-left.revealed { opacity: 1; transform: none; }
+.reveal-right { opacity: 0; transform: translateX(40px); transition: opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1); }
+.reveal-right.revealed { opacity: 1; transform: none; }
 
-    .trip-meta {
-      margin-top: 0.5rem;
-      font-size: 0.78rem;
-      color: rgba(232,213,183,0.55);
-      letter-spacing: 0.5px;
-    }
+/* FOOTER */
+footer { padding: 4rem 3rem; text-align: center; background: var(--mid); border-top: 1px solid rgba(212,168,71,.1); }
+footer p { font-size: .75rem; color: var(--text); letter-spacing: .1em; }
+.footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--cream); letter-spacing: .1em; margin-bottom: 1rem; }
 
-    .trip-excerpt {
-      margin-top: 0.6rem;
-      font-size: 0.82rem;
-      color: rgba(232,213,183,0.7);
-      line-height: 1.5;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .trip-btn {
-      margin-top: 1rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.72rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--rust);
-      font-weight: 600;
-      text-decoration: none;
-      border: 1px solid rgba(192,82,47,0.3);
-      padding: 0.4rem 0.9rem;
-      border-radius: 2px;
-      transition: all 0.2s;
-    }
-    .trip-btn:hover {
-      background: var(--rust);
-      color: var(--cream);
-    }
-
-    /* ── TIMELINE ── */
-    #historia {
-      background: var(--mid);
-      padding: 2rem;
-    }
-    .timeline-inner {
-      max-width: 900px;
-      margin: 0 auto;
-      padding-bottom: 4rem;
-    }
-    .timeline {
-      position: relative;
-      padding-left: 2rem;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0; bottom: 0;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--rust), transparent);
-    }
-    .tl-item {
-      position: relative;
-      margin-bottom: 2.5rem;
-    }
-    .tl-dot {
-      position: absolute;
-      left: -2.55rem;
-      top: 0.3rem;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--rust);
-      border: 2px solid var(--mid);
-    }
-    .tl-year {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.1rem;
-      color: var(--rust);
-      letter-spacing: 3px;
-    }
-    .tl-content {
-      margin-top: 0.3rem;
-    }
-    .tl-name {
-      font-weight: 500;
-      font-size: 1rem;
-      color: var(--sand);
-    }
-    .tl-desc {
-      font-size: 0.82rem;
-      color: rgba(232,213,183,0.5);
-      margin-top: 0.2rem;
-      line-height: 1.5;
-    }
-    .tl-link {
-      display: inline-block;
-      margin-top: 0.4rem;
-      font-size: 0.7rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--rust);
-      text-decoration: none;
-    }
-    .tl-link:hover { text-decoration: underline; }
-
-    /* ── MAP STRIP ── */
-    .destinations-strip {
-      background: var(--dark);
-      padding: 4rem 2rem;
-      text-align: center;
-    }
-    .destinations-strip .overline {
-      font-size: 0.7rem;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--rust);
-      margin-bottom: 1rem;
-    }
-    .dest-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      justify-content: center;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .dest-tag {
-      background: rgba(232,213,183,0.06);
-      border: 1px solid rgba(232,213,183,0.15);
-      color: rgba(232,213,183,0.7);
-      padding: 0.4rem 1rem;
-      border-radius: 2px;
-      font-size: 0.78rem;
-      letter-spacing: 1px;
-      transition: all 0.2s;
-    }
-    .dest-tag:hover {
-      background: var(--rust);
-      border-color: var(--rust);
-      color: var(--cream);
-    }
-
-    /* ── ABOUT ── */
-    #nosotros {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 5rem 2rem;
-      text-align: center;
-    }
-    #nosotros .overline {
-      font-size: 0.7rem;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--rust);
-      margin-bottom: 1rem;
-    }
-    #nosotros h2 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3rem;
-      letter-spacing: 3px;
-      color: var(--sand);
-      margin-bottom: 1.5rem;
-    }
-    #nosotros p {
-      font-size: 1rem;
-      line-height: 1.8;
-      color: rgba(232,213,183,0.7);
-      margin-bottom: 1rem;
-    }
-    #nosotros p strong { color: var(--sand); font-weight: 500; }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid rgba(232,213,183,0.08);
-      padding: 2rem;
-      text-align: center;
-      font-size: 0.75rem;
-      letter-spacing: 1px;
-      color: rgba(232,213,183,0.3);
-    }
-    footer span { color: var(--rust); }
-
-    /* ── DETAIL PAGE (hidden by default) ── */
-    .detail-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      background: var(--dark);
-      overflow-y: auto;
-    }
-    .detail-overlay.open { display: block; }
-    .detail-close {
-      position: fixed;
-      top: 1.5rem;
-      right: 2rem;
-      z-index: 300;
-      background: none;
-      border: 1px solid rgba(232,213,183,0.3);
-      color: var(--sand);
-      padding: 0.4rem 1rem;
-      font-size: 0.75rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
-      border-radius: 2px;
-    }
-    .detail-close:hover { background: var(--rust); border-color: var(--rust); }
-    .detail-hero {
-      height: 60vh;
-      position: relative;
-      background: center/cover no-repeat;
-    }
-    .detail-hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(26,23,19,0.3), rgba(26,23,19,0.9));
-    }
-    .detail-hero-text {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 3rem;
-      z-index: 1;
-    }
-    .detail-hero-text .tag {
-      font-size: 0.7rem;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--rust);
-      margin-bottom: 0.5rem;
-    }
-    .detail-hero-text h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 8vw, 7rem);
-      letter-spacing: 3px;
-      color: var(--sand);
-      line-height: 0.9;
-    }
-    .detail-body {
-      max-width: 780px;
-      margin: 3rem auto;
-      padding: 0 2rem 6rem;
-    }
-    .detail-meta {
-      display: flex;
-      gap: 2rem;
-      margin-bottom: 2rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid rgba(232,213,183,0.1);
-    }
-    .detail-meta .m {
-      font-size: 0.75rem;
-      letter-spacing: 1px;
-      color: rgba(232,213,183,0.4);
-      text-transform: uppercase;
-    }
-    .detail-meta .m strong {
-      display: block;
-      color: var(--sand);
-      font-size: 0.95rem;
-      font-weight: 400;
-      margin-top: 0.2rem;
-      text-transform: none;
-      letter-spacing: 0;
-    }
-    .detail-body h3 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.8rem;
-      letter-spacing: 2px;
-      color: var(--sand);
-      margin: 2rem 0 0.8rem;
-    }
-    .detail-body p {
-      font-size: 0.95rem;
-      line-height: 1.85;
-      color: rgba(232,213,183,0.7);
-      margin-bottom: 1rem;
-    }
-    .photos-link-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      margin: 2rem 0;
-      background: var(--rust);
-      color: var(--cream);
-      text-decoration: none;
-      padding: 0.8rem 1.6rem;
-      font-size: 0.8rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      font-weight: 600;
-      border-radius: 2px;
-      transition: background 0.2s;
-    }
-    .photos-link-btn:hover { background: var(--earth); }
-
-    /* ── PHOTO GALLERY (real Google Photos) ── */
-    .photo-gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 0.75rem;
-      margin: 0 0 2rem;
-    }
-    .gal-fig {
-      margin: 0;
-      position: relative;
-      overflow: hidden;
-      border-radius: 3px;
-      background: var(--mid);
-    }
-    .gal-fig img {
-      width: 100%;
-      height: 240px;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.4s ease;
-    }
-    .gal-fig:hover img { transform: scale(1.04); }
-    .gal-fig figcaption {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 0.6rem 0.8rem;
-      background: linear-gradient(transparent, rgba(0,0,0,0.75));
-      font-size: 0.78rem;
-      color: rgba(255,255,255,0.85);
-      font-style: italic;
-      line-height: 1.3;
-    }
-
-    @media (max-width: 700px) {
-      .trips-grid { grid-template-columns: 1fr; }
-      .trip-card.large { grid-column: span 1; aspect-ratio: 4/3; }
-      .hero-stats { gap: 1.5rem; }
-      nav ul { display: none; }
-    }
-  </style>
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .trip-inner { padding: 0 1.5rem; }
+  .story-block { grid-template-columns: 1fr; gap: 2rem; }
+  .story-block.reverse { direction: ltr; }
+}
+</style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="#"><span>F</span>ERRERO TRIPS</a>
-  <ul>
-    <li><a href="#viajes">Viajes</a></li>
-    <li><a href="#historia">Historia</a></li>
-    <li><a href="#nosotros">Nosotros</a></li>
+<nav id="nav">
+  <a href="#" class="nav-brand">Ferrero Trips</a>
+  <ul class="nav-links">
+    <li><a href="#asia2025">Asia '25</a></li>
+    <li><a href="#japan2024">Japan '24</a></li>
+    <li><a href="#mexico2022">Mexico '22</a></li>
+    <li><a href="#norway2020">Norway '20</a></li>
+    <li><a href="#argentina">Argentina</a></li>
+    <li><a href="#hytte2025">Hytte</a></li>
+    <li><a href="#capetown">Cape Town</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
-  <p class="hero-stamp">Oslo · Argentina · El mundo</p>
-  <h1>FERRERO<br><em>Trips</em></h1>
-  <p class="hero-sub">El diario de viajes de nuestra familia — desde el Ártico hasta el Sudeste Asiático, pasando por toda Europa y las Américas.</p>
-  <div class="hero-stats">
-    <div class="stat">
-      <div class="num">20+</div>
-      <div class="label">Países</div>
-    </div>
-    <div class="stat">
-      <div class="num">15k+</div>
-      <div class="label">Fotos</div>
-    </div>
-    <div class="stat">
-      <div class="num">∞</div>
-      <div class="label">Recuerdos</div>
-    </div>
-  </div>
-  <p class="scroll-hint">↓ scroll</p>
+  <div class="hero-bg"></div>
+  <p class="hero-badge">Oslo &middot; Buenos Aires &middot; El Mundo</p>
+  <h1>Ferrero<span>Trips</span></h1>
+  <p class="hero-sub">The diary of a family that can't sit still. Six people, thirty countries, and the ongoing conviction that the best stories happen when you leave the plan at home.</p>
+  <p class="scroll-hint">&darr; Scroll to read</p>
 </section>
 
-<!-- TRIPS -->
-<div class="section-header">
-  <p class="overline">Nuestras aventuras</p>
-  <h2>VIAJES</h2>
+<div class="intro-strip">
+  <p>We are <em>Ismael, Malena, Lara, Amelie, and Taty</em> &mdash; a family split between Argentina and Norway, which means we&rsquo;re always either jet-lagged, homesick, or both. This is not a highlights reel. It&rsquo;s the real thing: wrong turns into something magnificent, cheap noodles that tasted like the best meal of our lives, and all the moments in between that remind us why we keep going.</p>
 </div>
 
-<section id="viajes">
-  <div class="trips-grid">
-
-    <!-- Asia 2025 - LARGE FEATURED -->
-    <a class="trip-card large" href="#" onclick="openTrip('asia2025');return false;">
-      <img src="https://lh3.googleusercontent.com/pw/AP1GczOXDEeSQh9h1LF3YIu77GxJqYJmA_GQiTALilr0vPpa52luoupoYvyxxVeUgv-GF4M0j42j9G9AxtMPPqxbqOzjuWg7AzlaMmXEdfQZtN4W8NiTVZYbCbHnNdW7-CJ3vsfu0bU-IKAonFLD7VqQbi7n8eHuMKxPnYQk0O52geHqgXnO3iYe5cVk_FU_0nZojC3XbMnT6GbkSsFUGxQsH-xTFgQsQpAbOy8Hce6fy5wzLwsESM01eWupfQbsdU5DuxH4QVO4hOr9_Rpr2WZGvcrwpPZH2zj3hQwJjPaLb6M5vF2FqtHKv7ezJZL5h1Zctw97Rp2fmayvWUhoaCR5MNvNmVGU9ttvV0Nf3yjQrC6uUlppiGA2eHNAUgwg4awhhDp8kIAMX2pmyOj3dL-rHtskpQpduod1NS0FoI4p7j8FN4T7J8JyT5SGpDF1ZsLHtzU9Rqp2zDfjKif7pi2bVQRNkRQj6-EqgUHR2p5x6EU0WnI5gQNXEaqU0ZvoVapx7tHyavxOiVhTiLpVaQ3Tzee0qIbT36aRrim9SF4Xj03aqNXOMXDdSkFNExslSp7RzJ_trtVM328S2SoStoew9NN0dZQxd4AqoXQYUWqymcHcIEa_33z6FUmUr35lX405Csg1nkXklTiznk_Q7bymiDeGcUDqtDwyMzS5Xjyx3e9adwVLN3SonZPGgWLcifHqgApFd_iy0DbRqw8BSjovwK-xwjUQ3BNz6oBUQMHtkA3BIecnJd7MS21LZDpIyUVyrLQzHwj05DilK0nBQu2LkPVBDKWlqhcgU1X5uzpxIuDYXVoChsmJuoP6XMi4ZPrqmsQZj-Y6nDIduoI6sJoGKso5LMgl9C0x2cmDDY_5hbHZPw-BOMx3nC7AtglN4scpOKcrZKxKZQ4TYrtzV64=w1400" alt="Asia 2025" />
-      <div class="trip-card-overlay">
-        <span class="trip-tag">🌏 Asia · 2025</span>
-        <h2 class="trip-title">VIAJE ASIA 2025</h2>
-        <p class="trip-meta">1955 fotos · Japón y más</p>
-        <p class="trip-excerpt">El viaje más ambicioso hasta la fecha. Templos milenarios, mercados imposibles, bullet trains y silencios que todavía resuenan.</p>
-        <span class="trip-btn">Leer más →</span>
+<!-- ASIA 2025 -->
+<section class="trip" id="asia2025">
+  <div class="trip-inner">
+    <div class="trip-header reveal">
+      <p class="trip-num">Chapter 01</p>
+      <h2 class="trip-title">Asia<br>2025</h2>
+      <div class="trip-meta">
+        <span>Japan &middot; Singapore &middot; Thailand</span>
+        <span>Spring 2025</span>
+        <span>1,955 Photos</span>
       </div>
-    </a>
+    </div>
 
-    <!-- Fjallraven Polar 2025 -->
-    <a class="trip-card" href="#" onclick="openTrip('polar2025');return false;">
-      <img src="https://photos.fife.usercontent.google.com/pw/AP1GczMSb5KNTekf-5Mq9Aew1ZhIaDFoxTP3gkvv_lx6RFmWgdwwwC1MAgxl0g=w900" alt="Fjallraven Polar" />
-      <div class="trip-card-overlay">
-        <span class="trip-tag">🐺 Ártico · 2025</span>
-        <h2 class="trip-title">FJÄLLRÄVEN POLAR</h2>
-        <p class="trip-meta">509 fotos · Expedición ártica</p>
-        <p class="trip-excerpt">Trineo de perros bajo auroras boreales. La aventura que no se olvida.</p>
-        <span class="trip-btn">Leer más →</span>
+    <div class="story-block">
+      <div class="story-text reveal-left">
+        <p>The bullet train from Tokyo to Kyoto is everything Japan promises you before you arrive: impossibly punctual, impossibly quiet, impossibly fast &mdash; a country passing in silence at 300 km/h while Amelie pressed her nose against the window and refused to blink. We had explained the Shinkansen three times at home. None of it prepared her for the actual thing. That gap, between expectation and reality, turned out to be the defining texture of this entire trip.</p>
+        <p>Japan does something unusual to children. The deer in Nara &mdash; wild animals wandering among ancient cedar trees &mdash; bowed at the girls for crackers. <span class="pullquote">"The deer are polite," Lara concluded, with the kind of gravity seven-year-olds reserve for major discoveries.</span> We had been in the country four days and had already stopped trying to explain things. Better to just walk and let the place work on everyone.</p>
+        <p>Kyoto in April is a clich&eacute; for a reason. The sakura crowds are real &mdash; shoulder to shoulder along the Philosopher's Path, everyone photographing the same blossoms. But step three streets back, into a neighbourhood with no English signage, and suddenly you&rsquo;re the only family eating yakitori in a seven-seat counter restaurant where the chef speaks no Spanish and we spoke no Japanese, and between Google Translate and a lot of pointing, we somehow ordered the best meal of the trip. The girls ate everything. The chef seemed pleased. Malena cried a little. It was a Tuesday.</p>
       </div>
-    </a>
-
-    <!-- Hytte tur May 2025 -->
-    <a class="trip-card" href="#" onclick="openTrip('hytte2025');return false;">
-      <img src="https://lh3.googleusercontent.com/pw/AP1GczMaqxg0S-BGENv3SgcamNwr7b1g0nnjA9k36VZa_Z4ULPHjT2WY1xjNrr7MvlalmiSHDGcGsD82hUe5cXYHrLE_qbGrIvgGxkMIhR-GZXWPshsrvswv53uapJ9D8NcLCqGEe_wW8CgZrUNPoP_sdwg4gg=w900" alt="Hytte tur" />
-      <div class="trip-card-overlay">
-        <span class="trip-tag">🏕️ Noruega · Mayo 2025</span>
-        <h2 class="trip-title">HYTTE TUR</h2>
-        <p class="trip-meta">119 fotos · Cabaña noruega</p>
-        <p class="trip-excerpt">Un fin de semana en la cabaña. Silencio, bosque, y la familia completa.</p>
-        <span class="trip-btn">Leer más →</span>
+      <div class="reveal-right">
+        <div class="photo-trio">
+          <div class="photo-frame ph-japan-red photo-tall" data-caption="Fushimi Inari, Kyoto &mdash; 4am before the crowds"></div>
+          <div class="photo-frame ph-japan-gold photo-square" data-caption="Deer bowing for crackers, Nara park"></div>
+          <div class="photo-frame ph-japan-pink photo-square" data-caption="Sakura hanami, Maruyama Park"></div>
+        </div>
       </div>
-    </a>
+    </div>
 
-    <!-- Japón 2024 -->
-    <a class="trip-card" href="#" onclick="openTrip('japon2024');return false;">
-      <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=900&auto=format&fit=crop" alt="Japón 2024" />
-      <div class="trip-card-overlay">
-        <span class="trip-tag">🇯🇵 Japón · 2024</span>
-        <h2 class="trip-title">JAPÓN 2024</h2>
-        <p class="trip-meta">380 fotos</p>
-        <p class="trip-excerpt">Tokio, Kioto, Osaka. El país que te cambia y que siempre querés volver.</p>
-        <span class="trip-btn">Leer más →</span>
+    <div class="story-block reverse">
+      <div class="story-text reveal-right">
+        <p>Singapore for four days felt like pressing fast-forward. The city is relentless in the best possible way &mdash; it wants you fed, dazzled, and slightly confused about what country you&rsquo;re in. The hawker centres near Maxwell Road became our morning ritual: kaya toast and soft-boiled eggs at a plastic table while the heat built around us. The girls learned that breakfast could be an event rather than an interruption to the morning.</p>
+        <p>Gardens by the Bay lit up at night while a choir of steel supertrees synchronized to music. The girls danced. We filmed it badly. We will watch that video for the rest of our lives.</p>
+        <p>Thailand was the deceleration the trip needed. After the precision of Japan and the velocity of Singapore, arriving in Chiang Mai felt like someone had turned the contrast down gently. The night markets, the temples draped in orange light, and a guesthouse family that adopted us for a week, leaving fruit outside our door each morning without explanation. <span class="pullquote">"I want to come back when I&rsquo;m big," Amelie said on the last night &mdash; which is the highest praise a five-year-old can give anything.</span></p>
       </div>
-    </a>
-
-    <!-- México 2022 - LARGE -->
-    <a class="trip-card large" href="#" onclick="openTrip('mexico2022');return false;">
-      <img src="https://images.unsplash.com/photo-1518638150340-f706e86654de?w=1400&auto=format&fit=crop" alt="México 2022" />
-      <div class="trip-card-overlay">
-        <span class="trip-tag">🇲🇽 México · 2022</span>
-        <h2 class="trip-title">MÉXICO 2022</h2>
-        <p class="trip-meta">1856 fotos · El viaje más largo</p>
-        <p class="trip-excerpt">Un México profundo: cenotes, pirámides, playas del Pacífico, mercados de Oaxaca y tacos en cada esquina. El viaje que marcó un antes y un después.</p>
-        <span class="trip-btn">Leer más →</span>
+      <div class="reveal-left">
+        <div class="photo-frame ph-sea-blue photo-tall" data-caption="Marina Bay Sands light show, Singapore"></div>
       </div>
-    </a>
+    </div>
 
-    <!-- Marruecos -->
-    <a class="trip-card" href="#" onclick="openTrip('marruecos');return false;">
-      <img src="https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?w=900&auto=format&fit=crop" alt="Marruecos" />
-      <div class="trip-card-overlay">
-        <span class="trip-tag">🇲🇦 Marruecos</span>
-        <h2 class="trip-title">MARRUECOS</h2>
-        <p class="trip-meta">540 fotos</p>
-        <p class="trip-excerpt">Desierto, médinas y el olor a menta. África a un vuelo de distancia.</p>
-        <span class="trip-btn">Leer más →</span>
-      </div>
-    </a>
-
-    <!-- Islandia -->
-    <a class="trip-card" href="#" onclick="openTrip('islandia');return false;">
-      <img src="https://images.unsplash.com/photo-1529963183134-61a90db47eaf?w=900&auto=format&fit=crop" alt="Islandia" />
-      <div class="trip-card-overlay">
-        <span class="trip-tag">🇮🇸 Islandia</span>
-        <h2 class="trip-title">ISLANDIA</h2>
-        <p class="trip-meta">171 fotos</p>
-        <p class="trip-excerpt">Glaciares, geisers y cascadas. Un país que parece de otro planeta.</p>
-        <span class="trip-btn">Leer más →</span>
-      </div>
-    </a>
-
-    <!-- Noruega Motorhome -->
-    <a class="trip-card" href="#" onclick="openTrip('noruega2020');return false;">
-      <img src="https://images.unsplash.com/photo-1513519245088-0e12902e35a6?w=900&auto=format&fit=crop" alt="Noruega motorhome" />
-      <div class="trip-card-overlay">
-        <span class="trip-tag">🚐 Noruega · 2020</span>
-        <h2 class="trip-title">NORUEGA EN MOTORHOME</h2>
-        <p class="trip-meta">633 fotos</p>
-        <p class="trip-excerpt">Cruzar los fiordos a bordo de nuestra casa rodante. La carretera de los trolls.</p>
-        <span class="trip-btn">Leer más →</span>
-      </div>
-    </a>
-
-    <!-- Korea -->
-    <a class="trip-card" href="#" onclick="openTrip('korea');return false;">
-      <img src="https://images.unsplash.com/photo-1601621915196-2621bfb0cd6e?w=900&auto=format&fit=crop" alt="Korea del sur" />
-      <div class="trip-card-overlay">
-        <span class="trip-tag">🇰🇷 Korea del Sur</span>
-        <h2 class="trip-title">KOREA DEL SUR</h2>
-        <p class="trip-meta">343 fotos</p>
-        <p class="trip-excerpt">K-culture, palacios, ramyeon y tecnología de otro mundo. Seoul nos voló la cabeza.</p>
-        <span class="trip-btn">Leer más →</span>
-      </div>
-    </a>
-
-    <!-- Esp-Fra-Sui -->
-    <a class="trip-card" href="#" onclick="openTrip('espfrasu');return false;">
-      <img src="https://images.unsplash.com/photo-1503917988258-f87a78e3c995?w=900&auto=format&fit=crop" alt="España Francia Suiza" />
-      <div class="trip-card-overlay">
-        <span class="trip-tag">🚗 Europa · Road trip</span>
-        <h2 class="trip-title">ESP·FRA·SUI EN AUTO</h2>
-        <p class="trip-meta">375 fotos</p>
-        <p class="trip-excerpt">Un road trip por tres países. Del Mediterráneo a los Alpes en un solo viaje.</p>
-        <span class="trip-btn">Leer más →</span>
-      </div>
-    </a>
-
-    <!-- Argentina 2019 -->
-    <a class="trip-card" href="#" onclick="openTrip('argentina2019');return false;">
-      <img src="https://images.unsplash.com/photo-1589909202802-8f4aadce1849?w=900&auto=format&fit=crop" alt="Argentina" />
-      <div class="trip-card-overlay">
-        <span class="trip-tag">🇦🇷 Argentina · 2019</span>
-        <h2 class="trip-title">ARGENTINA 2019</h2>
-        <p class="trip-meta">448 fotos</p>
-        <p class="trip-excerpt">La vuelta a casa. Familia, asado, Buenos Aires y la Patagonia.</p>
-        <span class="trip-btn">Leer más →</span>
-      </div>
-    </a>
-
-    <!-- Prague 2021 -->
-    <a class="trip-card" href="#" onclick="openTrip('prague2021');return false;">
-      <img src="https://images.unsplash.com/photo-1541849546-216549ae216d?w=900&auto=format&fit=crop" alt="Prague" />
-      <div class="trip-card-overlay">
-        <span class="trip-tag">🇨🇿 República Checa · 2021</span>
-        <h2 class="trip-title">PRAGUE 2021</h2>
-        <p class="trip-meta">333 fotos</p>
-        <p class="trip-excerpt">La ciudad de los cien campanarios. Cerveza, medievalismo y el Puente Carlos.</p>
-        <span class="trip-btn">Leer más →</span>
-      </div>
-    </a>
-
+    <div class="key-facts reveal">
+      <div class="fact"><div class="fact-val">3</div><div class="fact-label">Countries</div></div>
+      <div class="fact"><div class="fact-val">28</div><div class="fact-label">Days on the road</div></div>
+      <div class="fact"><div class="fact-val">1,955</div><div class="fact-label">Photos taken</div></div>
+      <div class="fact"><div class="fact-val">&infin;</div><div class="fact-label">Bowls of ramen</div></div>
+    </div>
+    <a class="album-link reveal" href="https://photos.google.com/album/AF1QipPwiceEQoiEw4SWZk9V-_lDvRQQsoTzQZ0QtuSo" target="_blank">View all 1,955 photos</a>
   </div>
 </section>
 
-<!-- DESTINATIONS STRIP -->
-<div class="destinations-strip">
-  <p class="overline">Todos los destinos visitados</p>
-  <div class="dest-tags">
-    <span class="dest-tag">🇳🇴 Noruega</span>
-    <span class="dest-tag">🇯🇵 Japón</span>
-    <span class="dest-tag">🇲🇽 México</span>
-    <span class="dest-tag">🇰🇷 Korea del Sur</span>
-    <span class="dest-tag">🇲🇦 Marruecos</span>
-    <span class="dest-tag">🇮🇸 Islandia</span>
-    <span class="dest-tag">🇵🇱 Polonia</span>
-    <span class="dest-tag">🇿🇦 Sudáfrica</span>
-    <span class="dest-tag">🇦🇷 Argentina</span>
-    <span class="dest-tag">🇺🇸 California</span>
-    <span class="dest-tag">🇺🇸 Nueva York</span>
-    <span class="dest-tag">🇫🇷 París</span>
-    <span class="dest-tag">🇬🇧 Londres</span>
-    <span class="dest-tag">🇩🇪 Berlín</span>
-    <span class="dest-tag">🇮🇹 Roma</span>
-    <span class="dest-tag">🇮🇹 Venezia</span>
-    <span class="dest-tag">🇪🇸 Barcelona</span>
-    <span class="dest-tag">🇸🇪 Estocolmo</span>
-    <span class="dest-tag">🇵🇹 Portugal</span>
-    <span class="dest-tag">🇩🇰 Copenhague</span>
-    <span class="dest-tag">🇨🇿 Prague</span>
-    <span class="dest-tag">🇸🇰 Bratislava</span>
-    <span class="dest-tag">🇦🇹 Vienna</span>
-    <span class="dest-tag">🇨🇭 Suiza</span>
-    <span class="dest-tag">🇧🇪 Bélgica</span>
-    <span class="dest-tag">🇮🇹 Trieste</span>
-    <span class="dest-tag">🏔️ Ártico</span>
-  </div>
-</div>
+<!-- JAPAN 2024 -->
+<section class="trip" id="japan2024" style="background:rgba(20,15,10,.4);">
+  <div class="trip-inner">
+    <div class="trip-header reveal">
+      <p class="trip-num">Chapter 02</p>
+      <h2 class="trip-title">Japan<br>2024</h2>
+      <div class="trip-meta">
+        <span>Tokyo &middot; Osaka &middot; Hiroshima</span>
+        <span>2024</span>
+        <span>380 Photos</span>
+      </div>
+    </div>
 
-<!-- HISTORIA / TIMELINE -->
-<section id="historia">
-  <div class="section-header">
-    <p class="overline">Cómo llegamos aquí</p>
-    <h2>NUESTRA HISTORIA</h2>
-  </div>
-  <div class="timeline-inner">
-    <div class="timeline">
+    <div class="story-block">
+      <div class="story-text reveal-left">
+        <p>The first rule of going to Japan is that once is never enough. The second rule is that you will believe, before the second trip, that you already know what to expect. You do not. Japan has a talent for revealing new layers every time &mdash; different neighbourhoods, different seasons, different versions of the girls encountering the same city with older eyes.</p>
+        <p>This was the trip where Lara discovered Japanese convenience stores as a personal philosophy. 7-Eleven in Japan is not 7-Eleven anywhere else: it&rsquo;s a warm universe of onigiri, tamagoyaki sandwiches, perfect coffee in tiny cans, and seasonal snacks you&rsquo;ve never seen before and will spend the next year trying to recreate at home.</p>
+        <p>Hiroshima is not a place you visit lightly. We walked through the Peace Memorial Museum slowly, without phones, the girls old enough to understand that something enormous had happened here and young enough to feel the weight of it without needing it explained. <span class="pullquote">Some places don&rsquo;t need a caption. They just need you to be present.</span></p>
+      </div>
+      <div class="reveal-right">
+        <div class="photo-frame ph-japan-red photo-tall" data-caption="Shibuya crossing, Tokyo &mdash; rush hour"></div>
+      </div>
+    </div>
 
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <p class="tl-year">2025</p>
-        <div class="tl-content">
-          <p class="tl-name">Asia 2025 + Fjällräven Polar + Hytte tur + Oslo</p>
-          <p class="tl-desc">El año más aventurero hasta el momento. Arrancó con la expedición ártica de los Fjällräven Polar — trineo de perros bajo auroras boreales — y siguió con el viaje a Asia. En mayo, una escapada a la cabaña noruega. Y hoy, Oslo.</p>
-          <a class="tl-link" href="#" onclick="openTrip('polar2025');return false;">Ver Fjällräven Polar →</a>
+    <div class="story-block reverse">
+      <div class="reveal-left">
+        <div class="photo-trio">
+          <div class="photo-frame ph-japan-gold photo-tall" data-caption="Dotonbori at night, Osaka"></div>
+          <div class="photo-frame ph-japan-pink photo-square" data-caption="Hiroshima Peace Memorial"></div>
+          <div class="photo-frame ph-sea-blue photo-square" data-caption="Bullet train, somewhere between cities"></div>
         </div>
       </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <p class="tl-year">2024</p>
-        <div class="tl-content">
-          <p class="tl-name">Japón — segunda vez, misma fascinación</p>
-          <p class="tl-desc">380 fotos que no alcanzan para capturar lo que Japón genera. El país al que siempre se vuelve.</p>
-          <a class="tl-link" href="#" onclick="openTrip('japon2024');return false;">Ver Japón 2024 →</a>
+      <div class="story-text reveal-right">
+        <p>Osaka gave us permission to eat irresponsibly. Takoyaki in the street at 11pm. Okonomiyaki the size of a wheel, cooked at the table while the chef watched our technique with polite concern. Kushikatsu on every corner &mdash; the girls declared it the greatest food innovation since pizza. Malena, who is from Buenos Aires and takes food seriously in ways that are somewhat competitive, admitted it might be the best fried food she had ever eaten. This is not a small statement.</p>
+        <p>Japan in 2024 was different from Japan in 2025 in ways that are hard to articulate but easy to feel. The girls were a year younger, the city the same, but we walked through it differently &mdash; more slowly, more willing to sit somewhere unremarkable for an hour and just watch. Japan rewards that kind of attention.</p>
+        <div class="key-facts">
+          <div class="fact"><div class="fact-val">380</div><div class="fact-label">Photos</div></div>
+          <div class="fact"><div class="fact-val">2</div><div class="fact-label">Japan trips one year apart</div></div>
         </div>
+        <a class="album-link" href="https://photos.google.com/album/AF1QipOi0jPPAlpdVlPJV2BSWuU7pJAtWjGu1HWcdK7H" target="_blank">View all 380 photos</a>
       </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <p class="tl-year">2022</p>
-        <div class="tl-content">
-          <p class="tl-name">México (1856 fotos) + Marruecos + Korea + Estocolmo</p>
-          <p class="tl-desc">El año que explotó. México fue el viaje más largo y más fotografiado de la familia. Después llegó Korea del Sur, Marruecos, y una escapada escandinava a Estocolmo.</p>
-        </div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <p class="tl-year">2021</p>
-        <div class="tl-content">
-          <p class="tl-name">Prague + Polonia + Islandia + Argentina varados</p>
-          <p class="tl-desc">La aventura del confinamiento levantado. Islandia de golpe, Europa central con la familia, y el episodio épico de quedar varados en Argentina.</p>
-        </div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <p class="tl-year">2020</p>
-        <div class="tl-content">
-          <p class="tl-name">Noruega en motorhome — 633 fotos de libertad</p>
-          <p class="tl-desc">Cuando el mundo se cerró, nosotros abrimos la puerta de la motorhome y cruzamos Noruega. Los fiordos, la Carretera de los Trolls, el sol de medianoche.</p>
-          <a class="tl-link" href="#" onclick="openTrip('noruega2020');return false;">Ver el viaje →</a>
-        </div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <p class="tl-year">2019</p>
-        <div class="tl-content">
-          <p class="tl-name">California · Nueva York · Argentina · Sudáfrica</p>
-          <p class="tl-desc">El año prepademia en que la familia tocó cuatro continentes. De Buenos Aires a Ciudad del Cabo, pasando por Manhattan y Los Ángeles.</p>
-        </div>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <p class="tl-year">Antes</p>
-        <div class="tl-content">
-          <p class="tl-name">Europa: París, Roma, Berlín, Barcelona, Copenhague, Estocolmo, Venezia, Bratislava, Vienna...</p>
-          <p class="tl-desc">Y una carretera que va de España a Francia a Suiza. Y Portugal en barco desde Copenhague. Y Trieste. Y Tarragona. Europa entera, poco a poco, siempre en familia.</p>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
 
-<!-- NOSOTROS -->
-<section id="nosotros">
-  <p class="overline">Quiénes somos</p>
-  <h2>NOSOTROS</h2>
-  <p>Somos una familia que vive en <strong>Oslo, Noruega</strong>, con raíces bien plantadas en <strong>Argentina</strong>. Entre los dos mundos aprendimos que viajar no es escapar — es la forma más honesta de entender dónde estamos parados.</p>
-  <p>Este foro es nuestro diario colectivo. No filtramos los viajes malos ni exageramos los buenos. Contamos lo que vimos, lo que comimos, lo que nos sorprendió y lo que preferimos olvidar. Y siempre con fotos — porque si no hay fotos, casi no ocurrió.</p>
-  <p>Desde <strong>el Ártico hasta Marruecos</strong>, desde <strong>Buenos Aires hasta Seúl</strong>, esta es la historia de una familia en movimiento.</p>
+<!-- MEXICO 2022 -->
+<section class="trip" id="mexico2022">
+  <div class="trip-inner">
+    <div class="trip-header reveal">
+      <p class="trip-num">Chapter 03</p>
+      <h2 class="trip-title">M&eacute;xico<br>2022</h2>
+      <div class="trip-meta">
+        <span>Ciudad de M&eacute;xico &middot; Oaxaca &middot; Yucat&aacute;n</span>
+        <span>2022</span>
+        <span>1,856 Photos</span>
+      </div>
+    </div>
+
+    <div class="story-block">
+      <div class="story-text reveal-left">
+        <p>Mexico is where the whole family makes sense. Between Ismael&rsquo;s Argentine directness and the country&rsquo;s baseline warmth, between Malena&rsquo;s instinct for finding the best street food in any city and the fact that Mexican street food is objectively the best street food in the world &mdash; the whole thing clicked from day one. We hit the ground running in Mexico City and did not stop for three weeks.</p>
+        <p>CDMX first, because there is no version of Mexico that doesn&rsquo;t start in the capital. The sheer weight of history layered into the city &mdash; Aztec ruins beneath Spanish colonial plazas, modernist murals on government buildings &mdash; is staggering in the best possible way. Taty found Diego Rivera&rsquo;s murals in the National Palace and stood for forty minutes reading every panel. The girls climbed on things they probably weren&rsquo;t supposed to climb on.</p>
+        <p><span class="pullquote">Oaxaca broke us open in the way only a city that smells of chocolate and mezcal can.</span> The mole negro alone &mdash; a sauce that takes days to make, that contains everything &mdash; is worth a ten-hour flight. We ate it three days in a row. We took a cooking class where the instructor laughed at Ismael&rsquo;s grinding technique and was not wrong to do so.</p>
+      </div>
+      <div class="reveal-right">
+        <div class="photo-trio">
+          <div class="photo-frame ph-mexico-terra photo-tall" data-caption="Monte Alb&aacute;n at sunrise, Oaxaca"></div>
+          <div class="photo-frame ph-mexico-sun photo-square" data-caption="Mole negro cooking class"></div>
+          <div class="photo-frame ph-mexico-teal photo-square" data-caption="Cenote Ik Kil, Yucat&aacute;n"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="story-block reverse">
+      <div class="reveal-left">
+        <div class="photo-frame ph-mexico-teal photo-tall" data-caption="Swimming in a cenote &mdash; the girls dared each other to jump"></div>
+      </div>
+      <div class="story-text reveal-right">
+        <p>The Yucat&aacute;n Peninsula exists in a different register. The heat is absolute. The colour of the Caribbean water is not a real colour &mdash; it looks edited, like someone ran a filter that bumped the teal saturation 40% above what nature is supposed to produce. Lara swam for six hours straight. Amelie collected shells with the methodical intensity she applies to everything.</p>
+        <p>Chich&eacute;n Itz&aacute; at 7am, before the tour buses, is close to what the ancient world might have felt like. The Pyramid of Kukulc&aacute;n casting its shadow, the acoustics of the ball court where a handclap produces nine echoes &mdash; whoever designed these spaces understood something about scale and human attention that most modern architects have forgotten.</p>
+        <p>The cenotes turned out to be the highlight the girls talked about for the rest of the year. Jumping from a platform twelve metres up, surfacing into green filtered light, roots reaching down from the jungle above &mdash; it&rsquo;s the kind of thing that recalibrates your sense of what the world can look like.</p>
+        <div class="key-facts">
+          <div class="fact"><div class="fact-val">3</div><div class="fact-label">Regions</div></div>
+          <div class="fact"><div class="fact-val">21</div><div class="fact-label">Days</div></div>
+          <div class="fact"><div class="fact-val">1,856</div><div class="fact-label">Photos</div></div>
+        </div>
+        <a class="album-link" href="https://photos.google.com/album/AF1QipPsIU5Dqf4zx8xf4r515dpvBs6nq6TGtx1wA11b" target="_blank">View all 1,856 photos</a>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  Hecho con ❤️ por la familia Ferrero · Oslo · <span>2025</span>
-</footer>
-
-<!-- DETAIL OVERLAY -->
-<div class="detail-overlay" id="detailOverlay">
-  <button class="detail-close" onclick="closeTrip()">✕ Cerrar</button>
-  <div class="detail-hero" id="detailHero"></div>
-  <div class="detail-body">
-    <div class="detail-meta" id="detailMeta"></div>
-    <div id="detailContent"></div>
-  </div>
-</div>
-
-<script>
-// Real photos from Google Photos — publicly accessible CDN URLs
-const P = {
-  asia_mosque: "https://lh3.googleusercontent.com/pw/AP1GczOXDEeSQh9h1LF3YIu77GxJqYJmA_GQiTALilr0vPpa52luoupoYvyxxVeUgv-GF4M0j42j9G9AxtMPPqxbqOzjuWg7AzlaMmXEdfQZtN4W8NiTVZYbCbHnNdW7-CJ3vsfu0bU-IKAonFLD7VqQbi7n8eHuMKxPnYQk0O52geHqgXnO3iYe5cVk_FU_0nZojC3XbMnT6GbkSsFUGxQsH-xTFgQsQpAbOy8Hce6fy5wzLwsESM01eWupfQbsdU5DuxH4QVO4hOr9_Rpr2WZGvcrwpPZH2zj3hQwJjPaLb6M5vF2FqtHKv7ezJZL5h1Zctw97Rp2fmayvWUhoaCR5MNvNmVGU9ttvV0Nf3yjQrC6uUlppiGA2eHNAUgwg4awhhDp8kIAMX2pmyOj3dL-rHtskpQpduod1NS0FoI4p7j8FN4T7J8JyT5SGpDF1ZsLHtzU9Rqp2zDfjKif7pi2bVQRNkRQj6-EqgUHR2p5x6EU0WnI5gQNXEaqU0ZvoVapx7tHyavxOiVhTiLpVaQ3Tzee0qIbT36aRrim9SF4Xj03aqNXOMXDdSkFNExslSp7RzJ_trtVM328S2SoStoew9NN0dZQxd4AqoXQYUWqymcHcIEa_33z6FUmUr35lX405Csg1nkXklTiznk_Q7bymiDeGcUDqtDwyMzS5Xjyx3e9adwVLN3SonZPGgWLcifHqgApFd_iy0DbRqw8BSjovwK-xwjUQ3BNz6oBUQMHtkA3BIecnJd7MS21LZDpIyUVyrLQzHwj05DilK0nBQu2LkPVBDKWlqhcgU1X5uzpxIuDYXVoChsmJuoP6XMi4ZPrqmsQZj-Y6nDIduoI6sJoGKso5LMgl9C0x2cmDDY_5hbHZPw-BOMx3nC7AtglN4scpOKcrZKxKZQ4TYrtzV64=w1200",
-  polar_sled: "https://lh3.googleusercontent.com/pw/AP1GczN8z5l9D_47zpEzKaBJokR3b293uYyawz7G_YEXgppUnQg6T3bgMkiTWQgnGhjyOm9W7YJHY8fxEcgD5hgAxK2UctsY12p1Foy5bx7QDkn6gRb5KP13ZykWFaJSa8j3a6AolWreaTO9jCJtdGgf_vxpQOn-PGN_Rt7vFKhPOAtc2qSbNgH5kNIOWKLQkaEkKZ9EE6647_CgMjU1FwAHDxj4_vH-FU-_T_ZNGS5BxpV5FZ_Dywu9ss0dy6eT9ud43un8eSEeMc87NYkCWs-0D2L4KuAZjg5AUMEBe-6IBjshqFjIqBgRVvlKztl_p2PtOzauIVYMLvZZ-A4ihJTGfnoq7H0F-BfFqIYV2ZWX2MSUwLn2cPfygHj6kOd_pI-UXXeGtwM6TzfVDMRUpAxDlZwc0Jd32FuNpWGmrnGAufskquj7gHDdACnyw_79fkuCesqqsDov9i0weZVCw1ry7SgEQNzpsS9ovXoSRjeOcD3modA6Lebh8HLFyzzln7L5khPPwnaL6dGrRQ7PaC9FhROnM1W8sl9DmZfcegc3JbA7Clo9T0Ky044ExhFXerjcc5D1W11NIm8hVZ-8dHgByLyYp5Sfb2NKn13mWjxyo2DWB3DXYKzJAKZ07LxxfmrovSIKL75ibzsSJk1rhataVF8o214aoFhnxTu7SpS4Zt1LVdsVKHJxkxBJsgEEUhLEtNXS8j_xdCz7L6s0u13J8bUZZHmySDhXQyDowHtkqHmGb4S-0ZHTNuh5QStvt_h8YJ0TjG8sW4PGwZ5hxecS92cLrV6fNUMJaVxS8noj63EDLVdU3IWcCFCM-hg2Sylnnx8362HfMlo2ChXMbh3_Dka4ko0i_wk876hWqVO77EaswFBWAwHqS5F08BisqxWxhuzs9LapSzWCD50AzijRaCQMYjDyzCIuO77eQYy7fodRodsbR85ho1FDESXWJCI=w1200",
-  polar_aurora: "https://photos.fife.usercontent.google.com/pw/AP1GczMSb5KNTekf-5Mq9Aew1ZhIaDFoxTP3gkvv_lx6RFmWgdwwwC1MAgxl0g=w1200",
-  hytte_cabin: "https://lh3.googleusercontent.com/pw/AP1GczMaqxg0S-BGENv3SgcamNwr7b1g0nnjA9k36VZa_Z4ULPHjT2WY1xjNrr7MvlalmiSHDGcGsD82hUe5cXYHrLE_qbGrIvgGxkMIhR-GZXWPshsrvswv53uapJ9D8NcLCqGEe_wW8CgZrUNPoP_sdwg4gg=w1200"
-};
-
-const trips = {
-  asia2025: {
-    tag: "🌏 Asia · 2025",
-    title: "VIAJE ASIA 2025",
-    bg: P.asia_mosque,
-    photos: [
-      { url: P.asia_mosque, caption: "Sultan Mosque, Singapur — la cúpula dorada al atardecer" }
-    ],
-    fotos: "1955",
-    duracion: "Varias semanas",
-    paises: "Singapur · Japón · Tailandia",
-    photosUrl: "https://photos.google.com/album/AF1QipPwiceEQoiEw4SWZk9V-_lDvRQQsoTzQZ0QtuSo",
-    content: `
-      <h3>El viaje más grande</h3>
-      <p>1955 fotos. Ese número ya dice algo. No todos los viajes justifican casi dos mil imágenes — pero Asia sí. Asia lo justifica todo: el ruido de los mercados que no para, los templos que te fuerzan a callar, los trenes que llegan al segundo exacto, la comida que desafía todo lo que creías saber sobre cocinar.</p>
-      <h3>Lo que nos encontramos</h3>
-      <p>El Japón profundo, el que no aparece en los reels. Callejones de Kyoto a las seis de la mañana cuando no hay nadie. Un ramen a las once de la noche en Osaka que cambió para siempre el significado de la palabra "caldo". La ceremonia del té hecha en silencio total, algo imposible cuando viajás en familia.</p>
-      <h3>La logística del caos organizado</h3>
-      <p>Viajar a Asia con familia es una logística de alta precisión. Trenes bala que no esperan, hoteles que no tienen recepción física, menús sin traducción y niños con jet lag nivel olímpico. Y aun así — o quizás por eso — fue el mejor viaje que hicimos.</p>
-    `
-  },
-  polar2025: {
-    tag: "🐺 Ártico · 2025",
-    title: "FJÄLLRÄVEN POLAR",
-    bg: P.polar_aurora,
-    photos: [
-      { url: P.polar_aurora, caption: "Aurora boreal sobre el lago ártico — Laponia sueca, 3am" },
-      { url: P.polar_sled, caption: "En el trineo, con los huskies tirando a -25°C" }
-    ],
-    fotos: "509",
-    duracion: "10 días",
-    paises: "Suecia ártica / Laponia",
-    photosUrl: "https://photos.google.com/album/AF1QipNdyUssPrkmYcELZUp74AtlQm4QwxcLMT3RlJFL",
-    content: `
-      <h3>Cuando los perros toman el mando</h3>
-      <p>El Fjällräven Polar es una de las expediciones más icónicas del mundo: diez días sobre trineo, en el Ártico escandinavo, con perros husky que hacen el trabajo duro. Nosotros solo teníamos que no caernos — nunca tan fácil a -25°C.</p>
-      <h3>La aurora boreal y el silencio</h3>
-      <p>Hay cosas que no entran en una foto. El silencio del Ártico a medianoche, cuando los perros duermen y el cielo empieza a moverse. Las auroras boreales no son como en las imágenes: son vivas, cambian de forma, parecen que van a tocar el suelo. Quedás quieto y no querés que termine.</p>
-      <h3>Lo que te lleva a casa</h3>
-      <p>No son solo fotos. Son los kilos de ropa que huelen a husky, el recuerdo de conducir el trineo por primera vez en la oscuridad, y la certeza de que hay aventuras que cambian tu escala de referencia para siempre.</p>
-    `
-  },
-  hytte2025: {
-    tag: "🏕️ Noruega · Mayo 2025",
-    title: "HYTTE TUR MAY 2025",
-    bg: P.hytte_cabin,
-    photos: [
-      { url: P.hytte_cabin, caption: "La hytte en Hemsedal — madera oscura, cielo azul, pinos noruegos" }
-    ],
-    fotos: "119",
-    duracion: "Fin de semana",
-    paises: "Noruega",
-    photosUrl: "https://photos.google.com/album/AF1QipN3IY7-v3fRqt_xyIa4yE4Ua8vqIhO8sDC8u17j",
-    content: `
-      <h3>La cabaña noruega</h3>
-      <p>En Noruega existe un ritual sagrado que se llama "hytte tur" — literalmente, ir a la cabaña. No es un concepto turístico: es parte de la identidad del país. Cada familia tiene o alquila una hytte, y en algún momento del año, se va. Sin mucho plan. Sin itinerario.</p>
-      <h3>Bosque, silencio y familia</h3>
-      <p>Mayo en Noruega todavía tiene algo de invierno por las mañanas, pero la luz dura hasta las once de la noche. Los chicos corren afuera mientras se cocina adentro. Hay leña que apilar, caminatas sin destino y partidas de cartas que se extienden más de la cuenta.</p>
-      <h3>El viaje sin fotos épicas</h3>
-      <p>119 fotos y ninguna es "para Instagram". Son fotos de momentos: un desayuno desordenado, botas embarradas en la puerta, el fuego encendido a las diez de la mañana. El tipo de viaje que recargás las pilas sin darte cuenta.</p>
-    `
-  },
-  japon2024: {
-    tag: "🇯🇵 Japón · 2024",
-    title: "JAPÓN 2024",
-    bg: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1800&auto=format&fit=crop",
-    fotos: "380",
-    duracion: "2-3 semanas",
-    paises: "Japón",
-    photosUrl: "https://photos.google.com/album/AF1QipNiMzK0uN9vSPyqPMv0KJZmVAF_ZCML05USWZWI",
-    content: `
-      <h3>Tokio nunca descansa</h3>
-      <p>Aterrizás en Tokio y el mundo cambia de velocidad. Todo funciona. Los trenes llegan exactos al segundo. La comida del convenience store es mejor que la de muchos restaurantes europeos. La ciudad es un organismo propio que te absorbe sin pedirte permiso.</p>
-      <h3>Kioto es otra cosa</h3>
-      <p>Kioto te desacelera. Los templos zen tienen patios de grava rastrillada que no se puede pisar — y tiene sentido. La idea es mirar, no tocar. El bambú de Arashiyama a primera hora de la mañana, antes de los tours, es uno de esos momentos que justifican cualquier vuelo.</p>
-      <h3>Por qué volvemos</h3>
-      <p>Japón es el único país al que volvemos sin haber terminado de procesar la vez anterior. Cada vez hay algo que no viste, algo que cambió, algo que entendés diferente. 380 fotos en 2024, y ya estamos planeando la próxima.</p>
-    `
-  },
-  mexico2022: {
-    tag: "🇲🇽 México · 2022",
-    title: "MÉXICO 2022",
-    bg: "https://images.unsplash.com/photo-1518638150340-f706e86654de?w=1800&auto=format&fit=crop",
-    fotos: "1856",
-    duracion: "Un mes largo",
-    paises: "México",
-    photosUrl: "https://photos.google.com/album/AF1QipN_GFaP9oeChT6t9CdGiY5cSajFizA5RgKy7wWu",
-    content: `
-      <h3>El viaje que rompió todos los récords</h3>
-      <p>1856 fotos. El viaje más fotografiado de la historia familiar por un margen amplio. México lo justifica: es imposible guardarte la cámara. En cada esquina hay algo que nona hay algo que no querés olvidar.</p>
-      <h3>De Oaxaca a Yucatán</h3>
-      <p>Empezamos en Ciudad de México — con todo lo que eso implica: el Zócalo, Coyoacán, los tacos de canasta a las 7am. Después Oaxaca y sus mercados que no terminan. Después la Riviera Maya, los cenotes que parecen portales, las ruinas mayas con cuarenta grados encima.</p>
-      <h3>La familia en modo explorador</h3>
-      <p>México con familia es caótico y perfecto al mismo tiempo. Hay días que todo falla — el transporte, el plan, el tiempo. Y son generalmente los días con las mejores fotos.</p>
-    `
-  },
-  marruecos: {
-    tag: "🇲🇦 Marruecos",
-    title: "MARRUECOS",
-    bg: "https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?w=1800&auto=format&fit=crop",
-    fotos: "540",
-    duracion: "10-14 días",
-    paises: "Marruecos",
-    photosUrl: "#",
-    content: `
-      <h3>El Magreb a un vuelo de distancia</h3>
-      <p>Desde Oslo, Marruecos parece lejano. Desde Madrid, son tres horas. Y de repente estás en Fez, perdido en una médina que no tiene plano posible, con el olor a cuero del curtido y el sonido del muecín a lo lejos. El contraste es tan brutal que tarda un día en acomodarse.</p>
-      <h3>El desierto de noche</h3>
-      <p>Merzouga. Las dunas del Sahara. Llegamos en camello al anochecer y dormimos en un campamento con el cielo más estrellado que habíamos visto. No había luz artificial en kilómetros. Los chicos no hablaban.</p>
-      <h3>Las ciudades azules y las ciudades rojas</h3>
-      <p>Chefchaouen es azul. Marrakech es roja. En el medio hay Essaouira con su viento, sus gaviotas y su música Gnawa en la plaza. Marruecos no es un destino — es varios destinos apilados.</p>
-    `
-  },
-  islandia: {
-    tag: "🇮🇸 Islandia",
-    title: "ISLANDIA",
-    bg: "https://images.unsplash.com/photo-1529963183134-61a90db47eaf?w=1800&auto=format&fit=crop",
-    fotos: "171",
-    duracion: "1 semana",
-    paises: "Islandia",
-    photosUrl: "#",
-    content: `
-      <h3>El planeta de otro planeta</h3>
-      <p>Islandia tiene la capacidad de hacerte sentir que llegaste a un lugar donde los humanos aún no deberían estar. Lava solidificada que cubre todo. Géisers que estallan sin avisar. Cascadas que caen desde acantilados que no tienen fondo visible.</p>
-      <h3>La Ring Road</h3>
-      <p>La carretera que rodea la isla entera. La hicimos por tramos, parando cuando algo nos llamaba — que era casi todo. El tiempo en Islandia no existe: pueden pasar cuatro estaciones en un mismo día.</p>
-      <h3>Jökulsárlón</h3>
-      <p>La laguna glaciar. Icebergs azules flotando en agua negra, con focas dormidas encima. Una imagen que no entra en ningún marco.</p>
-    `
-  },
-  noruega2020: {
-    tag: "🚐 Noruega · 2020",
-    title: "NORUEGA EN MOTORHOME",
-    bg: "https://images.unsplash.com/photo-1513519245088-0e12902e35a6?w=1800&auto=format&fit=crop",
-    fotos: "633",
-    duracion: "3 semanas",
-    paises: "Noruega",
-    photosUrl: "#",
-    content: `
-      <h3>La casa sobre ruedas</h3>
-      <p>2020. El mundo en pausa. Nosotros, con una motorhome y Noruega entera como patio trasero. Si hay que buscar un lado positivo al año más raro de la historia moderna, este viaje es uno.</p>
-      <h3>Los fiordos desde adentro</h3>
-      <p>Hay algo diferente en ver los fiordos desde una carretera pequeña en vez de desde un crucero. Son más silenciosos, más tuyos. El agua refleja perfecta cada tarde. Los campings a la orilla tienen ducha fría y vistas que cuestan mil euros en un hotel.</p>
-      <h3>La Carretera de los Trolls</h3>
-      <p>Trollstigen. Once curvas imposibles subiendo una pared vertical. La hicimos cuatro veces — dos de ida, dos de vuelta — porque no podíamos creer que existiera.</p>
-    `
-  },
-  korea: {
-    tag: "🇰🇷 Korea del Sur",
-    title: "KOREA DEL SUR",
-    bg: "https://images.unsplash.com/photo-1601621915196-2621bfb0cd6e?w=1800&auto=format&fit=crop",
-    fotos: "343",
-    duracion: "2 semanas",
-    paises: "Corea del Sur",
-    photosUrl: "#",
-    content: `
-      <h3>Seoul: la ciudad que no duerme y tampoco aburrre</h3>
-      <p>Seoul es todo a la vez: tradición y K-pop, palacios Joseon y rascacielos con pantallas de diez pisos, mercados nocturnos y restaurantes con robots que traen los platos. Y en cada esquina, alguien comiendo algo delicioso parado en la calle.</p>
-      <h3>El contraste norte-sur</h3>
-      <p>Visitamos la zona desmilitarizada — la DMZ — y es uno de los lugares más extraños del mundo. Un silencio que pesa, dos países mirándose desde metros de distancia, y en el medio, turistas sacando fotos.</p>
-      <h3>Busan y los templos colgantes</h3>
-      <p>Haedong Yonggungsa, el templo sobre el mar. Gamcheon Culture Village en colores. El mercado de mariscos que huele a mar abierto. Busan es la ciudad que te sorprende cuando ya creías que Seoul lo había dado todo.</p>
-    `
-  },
-  espfrasu: {
-    tag: "🚗 Europa · Road trip",
-    title: "ESP · FRA · SUI EN AUTO",
-    bg: "https://images.unsplash.com/photo-1503917988258-f87a78e3c995?w=1800&auto=format&fit=crop",
-    fotos: "375",
-    duracion: "2 semanas",
-    paises: "España, Francia, Suiza",
-    photosUrl: "#",
-    content: `
-      <h3>Tres países, un tanque de nafta</h3>
-      <p>El road trip europeo perfecto existe y tiene forma de triángulo. Salís de España — del Mediterráneo, del calor, de las tapas — cruzás los Pirineos y entrás en Francia. Después, cuando creés que ya no puede mejorar, aparecen los Alpes suizos.</p>
-      <h3>La Provenza en flor</h3>
-      <p>Lavanda, mercados de domingo, vino blanco al mediodía. Francia tiene la capacidad de hacerte olvidar el apuro. El problema es que te querés quedar.</p>
-      <h3>Suiza y la escala</h3>
-      <p>Suiza es cara, perfecta y ligeramente irreal. El lago Leman refleja las montañas. El tren que sube a Jungfraujoch atraviesa un glaciar. Las vacas tienen cencerros de verdad. Todo es como en los calendarios — pero existe.</p>
-    `
-  },
-  argentina2019: {
-    tag: "🇦🇷 Argentina · 2019",
-    title: "ARGENTINA 2019",
-    bg: "https://images.unsplash.com/photo-1589909202802-8f4aadce1849?w=1800&auto=format&fit=crop",
-    fotos: "448",
-    duracion: "3 semanas",
-    paises: "Argentina",
-    photosUrl: "#",
-    content: `
-      <h3>La vuelta a casa</h3>
-      <p>Cuando sos argentino viviendo afuera, volver a Argentina es un viaje diferente. No es turismo — es reencuentro. Con la familia, con el barrio, con el asado, con el ritmo que tenés adentro aunque hayas cambiado de continente.</p>
-      <h3>Buenos Aires de otro modo</h3>
-      <p>Cuando vivís en una ciudad no la ves. Cuando volvés de visita, la mirás con otros ojos. El Tigre, San Telmo, la Boca, el Rosedal — lugares que de chicos eran "el fin de semana" y ahora son destino.</p>
-      <h3>La Patagonia</h3>
-      <p>El Calafate, el Glaciar Perito Moreno. Cuando el hielo cruje y un pedazo se desprende en el silencio de la Patagonia, te das cuenta de que hay cosas que no tienen escala humana. Y que Argentina entra difícil en una sola visita.</p>
-    `
-  },
-  prague2021: {
-    tag: "🇨🇿 República Checa · 2021",
-    title: "PRAGUE 2021",
-    bg: "https://images.unsplash.com/photo-1541849546-216549ae216d?w=1800&auto=format&fit=crop",
-    fotos: "333",
-    duracion: "1 semana",
-    paises: "República Checa",
-    photosUrl: "#",
-    content: `
-      <h3>La ciudad que sobrevivió todo</h3>
-      <p>Praga tiene algo que pocas ciudades europeas tienen: el centro histórico intacto. No lo destruyeron en la guerra, no lo "modernizaron" en los setenta. Está ahí, con sus adoquines y sus torres góticas, como si el tiempo hubiera doblegado. Y en 2021, sin turistas todavía, era casi tuya.</p>
-      <h3>El Puente Carlos a las 7am</h3>
-      <p>Hay un truco para disfrutar Praga: madrugar. El Puente Carlos con niebla y sin gente es otra cosa. Las estatuas te miran. El río Moldava tiene color plata. El castillo flota en la bruma.</p>
-      <h3>La cerveza más barata de Europa</h3>
-      <p>Es un cliché porque es cierto. La mejor cerveza del mundo, al precio de una botella de agua. Con albóndigas de pan y gulasch. En una bodega medieval con música en vivo. Prague tiene la capacidad de hacerte sentir que vivís bien, aunque no sea para siempre.</p>
-    `
-  }
-};
-
-function openTrip(id) {
-  const trip = trips[id];
-  if (!trip) return;
-
-  const overlay = document.getElementById('detailOverlay');
-  const hero = document.getElementById('detailHero');
-  const meta = document.getElementById('detailMeta');
-  const content = document.getElementById('detailContent');
-
-  hero.style.backgroundImage = `url('${trip.bg}')`;
-  hero.innerHTML = `
-    <div class="detail-hero-text">
-      <p class="tag">${trip.tag}</p>
-      <h1>${trip.title}</h1>
+<!-- NORWAY MOTORHOME 2020 -->
+<section class="trip" id="norway2020" style="background:rgba(15,25,30,.5);">
+  <div class="trip-inner">
+    <div class="trip-header reveal">
+      <p class="trip-num">Chapter 04</p>
+      <h2 class="trip-title">Norway<br>by Road</h2>
+      <div class="trip-meta">
+        <span>Fjords &middot; Mountains &middot; Coast</span>
+        <span>Summer 2020</span>
+        <span>633 Photos</span>
+      </div>
     </div>
-  `;
 
-  meta.innerHTML = `
-    <div class="m">Fotos<strong>${trip.fotos}</strong></div>
-    <div class="m">Duración<strong>${trip.duracion}</strong></div>
-    <div class="m">Destino<strong>${trip.paises}</strong></div>
-  `;
+    <div class="story-block">
+      <div class="story-text reveal-left">
+        <p>The world was shutting down in the spring of 2020, and renting a motorhome and driving into the Norwegian wilderness was either an act of wisdom or controlled madness &mdash; we still debate which. Six people, one vehicle, and a country of fjords and silence turned out to be exactly the right combination for a year that made no other kind of sense.</p>
+        <p>The motorhome was not large. This became immediately clear when Taty tried to stand up in the back and hit the roof, and clear again when the girls discovered the dining table folded into a bed and spent the next hour folding and unfolding it while we tried to drive through Hardangerfjord. Norway&rsquo;s roads near the fjords were designed by people who did not envision motorhomes. We scraped exactly one fence. It was not our fence.</p>
+        <p><span class="pullquote">At night, parked above a fjord with the water three hundred metres below and the sky still light at midnight &mdash; this is what Norway does to you. It makes small problems feel very small and large problems temporarily irrelevant.</span></p>
+      </div>
+      <div class="reveal-right">
+        <div class="photo-trio">
+          <div class="photo-frame ph-norway-fjord photo-tall" data-caption="Fjord morning &mdash; the water was a mirror"></div>
+          <div class="photo-frame ph-norway-green photo-square" data-caption="Wild camping above Hardangerfjord"></div>
+          <div class="photo-frame ph-norway-sunset photo-square" data-caption="Midnight sun from the motorhome door"></div>
+        </div>
+      </div>
+    </div>
 
-  const photosBtn = trip.photosUrl && trip.photosUrl !== '#'
-    ? `<a class="photos-link-btn" href="${trip.photosUrl}" target="_blank">📷 Ver álbum completo</a>`
-    : '';
+    <div class="story-block reverse">
+      <div class="reveal-left">
+        <div class="photo-frame ph-norway-fjord photo-tall" data-caption="Girls on the roof of the motorhome, somewhere in Vestlandet"></div>
+      </div>
+      <div class="story-text reveal-right">
+        <p>What the motorhome gave us that no hotel ever could: the ability to wake up exactly where we fell asleep &mdash; which in Norway means waking up inside the landscape rather than adjacent to it. Breakfast with a fjord view costs nothing if you drove there last night. The girls ate cereal looking out at Geirangerfjord, which is a UNESCO World Heritage site, as if this were completely ordinary. After three days, it started to feel completely ordinary.</p>
+        <p>That normalisation of extraordinary things might be the most valuable thing travel does for children. Geiranger. Trollstigen. Flam. The Aurlandsfjord. Each one more impossible than the last, each one absorbed by the girls with the calm certainty that this is simply what the world looks like &mdash; that beauty on this scale is not the exception but the baseline. We hope that sticks.</p>
+        <div class="key-facts">
+          <div class="fact"><div class="fact-val">2,400</div><div class="fact-label">Kilometres driven</div></div>
+          <div class="fact"><div class="fact-val">14</div><div class="fact-label">Wild camping nights</div></div>
+          <div class="fact"><div class="fact-val">633</div><div class="fact-label">Photos taken</div></div>
+        </div>
+        <a class="album-link" href="https://photos.google.com/album/AF1QipN895iUZs1KRk1eyE55CDCls8CLzF8VWcHHcXWB" target="_blank">View all 633 photos</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-  // Photo gallery with real Google Photos images
-  let galleryHtml = '';
-  if (trip.photos && trip.photos.length) {
-    const imgs = trip.photos.map(p => `
-      <figure class="gal-fig">
-        <img src="${p.url}" alt="${p.caption}" loading="lazy" />
-        <figcaption>${p.caption}</figcaption>
-      </figure>`).join('');
-    galleryHtml = `<div class="photo-gallery">${imgs}</div>`;
-  }
+<!-- ARGENTINA VARADOS -->
+<section class="trip" id="argentina">
+  <div class="trip-inner">
+    <div class="trip-header reveal">
+      <p class="trip-num">Chapter 05</p>
+      <h2 class="trip-title">Argentina<br>Varados</h2>
+      <div class="trip-meta">
+        <span>Buenos Aires &middot; Patagonia</span>
+        <span>2020 &mdash; Stranded</span>
+        <span>493 Photos</span>
+      </div>
+    </div>
 
-  content.innerHTML = galleryHtml + trip.content + photosBtn;
+    <div class="story-block">
+      <div class="story-text reveal-left">
+        <p>We landed in Buenos Aires in March 2020 to visit family, and then the world closed. The flights back to Oslo disappeared one by one over ten days until there were none. Argentina&rsquo;s border shut. Norway&rsquo;s border shut. We were stranded in the most beautiful way it is possible to be stranded: surrounded by Malena&rsquo;s family, in a city that feeds you at every corner, with nowhere to be and, suddenly, no plan at all.</p>
+        <p>For children, the word &ldquo;stranded&rdquo; loses its panic entirely when it means more time with grandparents. More time in the warm apartment in Palermo that always smells of medialunas. More afternoons in the Botanical Garden, where the cats outnumber the plants and the girls considered this a design success. Buenos Aires in pandemic-adjacent March was strange and quiet and kind &mdash; fewer people on the streets, but the people who were there more present, more willing to talk.</p>
+        <p><span class="pullquote">&ldquo;Being lost here is not the worst thing,&rdquo; Taty said, looking at the city from a rooftop in San Telmo on a warm autumn evening. It was not the worst thing at all.</span></p>
+      </div>
+      <div class="reveal-right">
+        <div class="photo-frame ph-arg-sky photo-tall" data-caption="La Boca neighbourhood, Buenos Aires"></div>
+      </div>
+    </div>
 
-  overlay.classList.add('open');
-  overlay.scrollTop = 0;
-  document.body.style.overflow = 'hidden';
-}
+    <div class="story-block reverse">
+      <div class="reveal-left">
+        <div class="photo-trio">
+          <div class="photo-frame ph-arg-pampas photo-tall" data-caption="Patagonian landscape &mdash; wind and silence"></div>
+          <div class="photo-frame ph-arg-sky photo-square" data-caption="Family asado, Buenos Aires"></div>
+          <div class="photo-frame ph-arg-pampas photo-square" data-caption="The girls with their cousins, finally reunited"></div>
+        </div>
+      </div>
+      <div class="story-text reveal-right">
+        <p>When the domestic flights reopened briefly, we drove south. Patagonia is a place that makes you reconsider everything you thought you understood about scale. The steppe goes on indefinitely. The wind is a physical force. The mountains, when they finally appear &mdash; the jagged drama of the Fitz Roy range &mdash; are not what you expected because nothing prepares you for how sharp they are against the sky. The girls went quiet for twenty minutes, which is unprecedented.</p>
+        <p>We were in Argentina for four months in the end. By the time we finally flew back to Oslo, the girls&rsquo; Spanish had improved enormously, they had a new set of cousins who felt like old friends, and Amelie had developed a position on empanadas (correct: Salta-style with egg and potato; wrong: anything else) that she defends to this day. Being stranded taught us something about the difference between a trip and a stay, between visiting a place and temporarily belonging to it.</p>
+        <div class="key-facts">
+          <div class="fact"><div class="fact-val">4</div><div class="fact-label">Months stranded</div></div>
+          <div class="fact"><div class="fact-val">493</div><div class="fact-label">Photos taken</div></div>
+          <div class="fact"><div class="fact-val">&infin;</div><div class="fact-label">Empanadas consumed</div></div>
+        </div>
+        <a class="album-link" href="https://photos.google.com/album/AF1QipM3j0lfhaK_cs8mYKSKf1T5tPALsgBjEPcpsUKW" target="_blank">View all 493 photos</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-function closeTrip() {
-  document.getElementById('detailOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
+<!-- HYTTE MAY 2025 -->
+<section class="trip" id="hytte2025" style="background:rgba(10,20,15,.5);">
+  <div class="trip-inner">
+    <div class="trip-header reveal">
+      <p class="trip-num">Chapter 06</p>
+      <h2 class="trip-title">Hytte<br>Weekend</h2>
+      <div class="trip-meta">
+        <span>Norwegian Mountains &middot; Cabin Life</span>
+        <span>May 2025</span>
+        <span>119 Photos</span>
+      </div>
+    </div>
 
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeTrip();
-});
-</script>
-</body>
-</html>
+    <div class="story-block">
+      <div class="story-text reveal-left">
+        <p>Not every trip has to be a continent. This is something we had to learn, coming from a family culture that measures adventure in flight hours and passport stamps. Norway taught us the other kind &mdash; the weekend in the mountains, the cabin without wifi, the season changing so dramatically in a single week that you feel the planet actually rotating. A hytte weekend in Norway is not a lesser version of a trip. It is its own category entirely.</p>
+        <p>May in the Norwegian mountains is a negotiation between winter and spring that winter hasn&rsquo;t quite conceded yet. There was still snow on the ground when we arrived &mdash; heavy, wet May snow that the girls immediately ran into without waterproofs &mdash; and by Sunday afternoon the sun had appeared with such intensity that we ate lunch outside in short sleeves, surrounded by snowdrifts. This is a normal Norwegian weekend. Norwegians are unbothered by it. We find it spectacular every time.</p>
+        <p><span class="pullquote">The cabin had a wood-burning stove, a stack of old board games with missing pieces, and a view of a frozen lake that thawed, incrementally, over the course of the weekend.</span> Lara went fishing. She caught nothing, which she considered irrelevant to the experience. Amelie built a snow fort she defended with great seriousness. Malena read an entire book. Taty knitted. This is what rest looks like.</p>
+      </div>
+      <div class="reveal-right">
+        <div class="photo-trio">
+          <div class="photo-frame ph-hytte-forest photo-tall" data-caption="The cabin, Saturday morning mist"></div>
+          <div class="photo-frame ph-hytte-snow photo-square" data-caption="May snow &mdash; the girls were ready, the snow was not"></div>
+          <div class="photo-frame ph-norway-green photo-square" data-caption="Spring light through the birch trees"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="key-facts reveal">
+      <div class="fact"><div class="fact-val">1</div><div class="fact-label">Weekend</div></div>
+      <div class="fact"><div class="fact-val">0</div><div class="fact-label">Wifi bars</div></div>
+      <div class="fact"><div class="fact-val">119</div><div class="fact-label">Photos taken</div></div>
+      <div class="fact"><div class="fact-val">1</div><div class="fact-label">Fire per evening</div></div>
+    </div>
+    <a class="album-link reveal" href="https://photos.google.com/share/AF1QipNlvRbfpH-TuB-k4rAfAjrgK4cHvFfdf0FQM-gfJUPbQzpnDuOwW4nutkEGis331A?key=REdIZm93LUd5M3ZpUGc4cDhTOXVKYl9ST0RTbTdB" target="_blank">View all 119 photos</a>
+  </div>
+</section>
+
+<!-- CAPE TOWN -->
+<section class="trip" id="capetown">
+  <div class="trip-inner">
+    <div class="trip-header reveal">
+      <p class="trip-num">Chapter 07</p>
+      <h2 class="trip-title">Cape<br>Town</h2>
+      <div class="trip-meta">
+        <span>South Africa &middot; Cape Peninsula</span>
+        <span>168 Photos</span>
+      </div>
+    </div>
+
+    <div class="story-block">
+      <div class="story-text reveal-left">
+        <p>Table Mountain does something to a city. Cape Town has the same basic ingredients as dozens of other coastal cities &mdash; harbour, wine country, beach suburb &mdash; but Table Mountain changes all of it. It sits above everything, flat-topped and vast, a presence rather than just a backdrop. You can see it from the airport, from the waterfront, from the highway, from your hotel window at 6am when you&rsquo;re jetlagged and standing there drinking bad coffee, trying to understand why you feel, already, that you&rsquo;ve been here before.</p>
+        <p>The penguins at Boulders Beach were, for the girls, the reason we came and the defining fact of southern Africa. African penguins waddled between the boardwalk and the water in complete indifference to thirty tourists photographing them from close range. Amelie crouched next to one for a photo. The penguin regarded her with what appeared to be mild professional contempt. This is the correct energy.</p>
+        <p><span class="pullquote">Cape Point, at the bottom of the peninsula, is where the Indian and Atlantic Oceans meet. The wind says something more urgent than any sign. We stood on the cliff and couldn&rsquo;t hear each other speak and didn&rsquo;t need to.</span></p>
+      </div>
+      <div class="reveal-right">
+        <div class="photo-trio">
+          <div class="photo-frame ph-ct-mountain photo-tall" data-caption="Table Mountain from the V&A Waterfront at sunset"></div>
+          <div class="photo-frame ph-ct-ocean photo-square" data-caption="Boulders Beach  &mdash; Amelie&rsquo;s favourite moment of the trip"></div>
+          <div class="photo-frame ph-ct-sunset photo-square" data-caption="Cape Point &mdash; where the oceans meet"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="story-block reverse">
+      <div class="reveal-left">
+        <div class="photo-frame ph-ct-sunset photo-tall" data-caption="Franschhoek wine valley, late afternoon light"></div>
+      </div>
+      <div class="story-text reveal-right">
+        <p>The winelands around Franschhoek produced the best lunch of the trip &mdash; a long, slow affair at a farm table under oak trees, where the children ate and ran and came back and ate again, and the adults had the very good idea of ordering a second bottle of something cold and local, and nobody rushed anything. These are the meals that feel, afterward, like they contained more time than they actually did.</pà¢Çä6RF÷vâ26GvF6ö×ÆWGFB6÷'BG&öæÇ67&F6W2â'WBBg'7Vó·2Ç6ò6GöbWG&÷&Fæ'66Â&VWGæBöbV÷ÆRvòÆfRç6FRFB6ö×ÆWGvF'F7VÆ"VæW&wÂ'F7VÆ"&FRâFR7V6f2Æ6RFW&Rg&öÒâvRÆVgBfVVÆærvRB6VVâÖ&RFVçFöbBâFB2FR&vBfVVÆærFòfRâBÖVç2vRfRFò6öÖR&6²ãÂ÷à¢ÆFb6Æ73Ò&¶WÖf7G2#à¢ÆFb6Æ73Ò&f7B#ãÆFb6Æ73Ò&f7B×fÂ#ãcÂöFcãÆFb6Æ73Ò&f7BÖÆ&VÂ#å÷F÷2F¶VãÂöFcãÂöFcà¢ÆFb6Æ73Ò&f7B#ãÆFb6Æ73Ò&f7B×fÂ#âfæfã³ÂöFcãÆFb6Æ73Ò&f7BÖÆ&VÂ#åVæwVç2Væ6÷VçFW&VCÂöFcãÂöFcà¢ÂöFcà¢Æ6Æ73Ò&Æ'VÒÖÆæ²"&VcÒ&GG3¢ò÷÷F÷2ævöövÆRæ6öÒöÆ'VÒôcã3ôvä$¦ãEevF4E$u7D¤ó4uw¦Æ¶ö¤43R"F&vWCÒ%ö&Ææ²#åfWrÆÂc÷F÷3Âöà¢ÂöFcà¢ÂöFcà¢ÂöFcà£Â÷6V7Föãà £Æfö÷FW#à¢Ç6Æ73Ò&fö÷FW"Ö'&æB#äfW'&W&òG&3Â÷à¢ÇäfÖÇG&fVÂ¦÷W&æÂfÖF6²÷6ÆòÂ'VVæ÷2&W2ÂæBWfW'vW&Râ&WGvVVâãÂ÷à¢Ç7GÆSÒ&Ö&vâ×F÷¢ãW&VÓ¶÷6G¢ãC²#ä6ÖVÂfÖFF÷C²ÖÆVæfÖFF÷C²Æ&fÖFF÷C²ÖVÆRfÖFF÷C²FGÂ÷à£Âöfö÷FW#à £Ç67&Cà¦6öç7BæbÒFö7VÖVçBævWDVÆVÖVçD'Bvæbr°§væF÷ræFDWfVçDÆ7FVæW"w67&öÆÂrÂÓâ°¢æbæ6Æ74Æ7BçFövvÆRw67&öÆÆVBrÂvæF÷rç67&öÆÅâc°§Ò° ¦6öç7Bö'6W'fW"ÒæWrçFW'6V7Föäö'6W'fW"VçG&W2Óâ°¢VçG&W2æf÷$V6RÓâ°¢bRæ4çFW'6V7Fær°¢RçF&vWBæ6Æ74Æ7BæFBw&WfVÆVBr°¢ö'6W'fW"çVæö'6W'fRRçF&vWB°¢Ð¢Ò°§ÒÂ²F&W6öÆC¢ãÂ&ö÷DÖ&vã¢sÓCrÒ° ¦Fö7VÖVçBçVW'6VÆV7F÷$ÆÂrç&WfVÂÂç&WfVÂÖÆVgBÂç&WfVÂ×&vBræf÷$V6VÂÓâ°¢ö'6W'fW"æö'6W'fRVÂ°§Ò°£Â÷67&Cà£Âö&öGà£ÂöFÖÃà
